@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>拉霸機</title>
+    <link rel="stylesheet" href="./css/index.css">
+</head>
+<body>
+    <div class="container">
+        <img src="./01.jpg" alt="" class="background">
+    </div>
+    <div class="lottery">
+        <div class="box box1">
+            <img src="./img/1.png" alt="">
+        </div>
+        <div class="box box2">
+            <img src="./img/2.png" alt="">
+        </div>
+        <div class="box box3">
+            <img src="./img/3.png" alt="">
+        </div>
+    </div>
+    <div class="handle"></div>
+</body>
+<script>
+    let handle = document.querySelector('.handle');
+    let box1 = document.querySelector('.box1');
+    let box2 = document.querySelector('.box2');
+    let box3 = document.querySelector('.box3');
+    let randomNum1;
+    let randomNum2;
+    let randomNum3;
+
+
+    function getRandomNumber(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    handle.addEventListener('click',updateRandomNumbers);
+    function updateRandomNumbers(){
+        const intervalId = setInterval(runRandomNumbers,50);
+        function runRandomNumbers() {
+            randomNum1 = getRandomNumber(1, 3);
+            randomNum2 = getRandomNumber(1, 3);
+            randomNum3 = getRandomNumber(1, 3);
+            
+            box1.innerHTML=`<img src="./img/${randomNum1}.png" alt="">`;
+            box2.innerHTML=`<img src="./img/${randomNum2}.png" alt="">`;
+            box3.innerHTML=`<img src="./img/${randomNum3}.png" alt="">`;
+        }
+        setTimeout(()=>{
+            clearInterval(intervalId);
+            setTimeout(()=>{
+                if(randomNum1 === randomNum2 && randomNum2 === randomNum3){
+                alert('一獎');
+            }else if(randomNum1 === randomNum3){
+                alert('二獎');
+            }else if(randomNum1 === randomNum2 || randomNum2 === randomNum3){
+                alert('三獎');
+            }else if(randomNum1 != randomNum2 && randomNum2 != randomNum3){
+                alert('四獎');
+            }
+            },500);
+        },2500);
+    }
+</script>
+</html>
