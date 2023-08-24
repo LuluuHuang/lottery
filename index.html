@@ -59,7 +59,30 @@
         <div class="handle"></div>
     </div>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script>
+    function bingo(){
+        var duration = 3 * 1000;
+        var animationEnd = Date.now() + duration;
+        var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0, scalar:3 };
+
+        function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+        }
+
+        var interval = setInterval(function() {
+        var timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+            return clearInterval(interval);
+        }
+
+        var particleCount = 50 * (timeLeft / duration);
+        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+        }, 250);
+    }
+
     let handle = document.querySelector('.handle');
     let box1 = document.querySelector('.box1');
     let box2 = document.querySelector('.box2');
@@ -88,10 +111,11 @@
             box3.innerHTML=`<img src="./img/${randomNum3}.png" alt="">`;
         }
         setTimeout(()=>{
-            clearInterval(intervalId);           
+            clearInterval(intervalId);
+            bingo();           
             setTimeout(()=>{
                 if(randomNum1 === randomNum2 && randomNum2 === randomNum3){
-                alert('一獎');
+                    alert('一獎');
                 }else if(randomNum1 === randomNum3){
                     alert('二獎');
                 }else if(randomNum1 === randomNum2 || randomNum2 === randomNum3){
@@ -100,7 +124,7 @@
                     alert('四獎');
                 }
                 container.style.backgroundImage = 'url("./01.png")';
-            },500);
+            },3500);
         },2500);
     }
 </script>
